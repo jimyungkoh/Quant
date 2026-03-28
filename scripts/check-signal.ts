@@ -80,10 +80,10 @@ async function main(): Promise<void> {
   }
 
   // 새 달 신호 — Telegram 발송
-  const signalFlipped = previous.buySignal !== current.buySignal;
+  const signalFlipped = previous ? previous.buySignal !== current.buySignal : false;
   const icon = current.buySignal ? "🟢" : "🟡";
   const currLabel = current.buySignal ? "매수 유효" : "현금 대기";
-  const prevLabel = previous.buySignal ? "매수 유효" : "현금 대기";
+  const prevLabel = previous?.buySignal === true ? "매수 유효" : "현금 대기";
 
   let text = FORCE_NOTIFY
     ? `${icon} <b>금 매수 신호 (수동 확인)</b>\n\n`
