@@ -1,0 +1,11 @@
+.git
+.claude
+.idea
+.next
+.omx
+node_modules
+memo
+coverage
+*.log
+ui-current.png
+ui-improved.png
