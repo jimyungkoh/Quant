@@ -66,11 +66,11 @@ export default async function Home({
       ) : (
         <Card>
           <CardHeader>
-            <CardDescription>스냅샷 대기 중</CardDescription>
+            <CardDescription>데이터 준비 중</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 text-sm leading-7 text-[var(--muted)]">
-            <p>대시보드는 매 영업일 오전 9시(KST)에 생성된 공식 스냅샷만 표시합니다.</p>
-            <p>아직 첫 배치가 실행되지 않았거나 스냅샷 파일이 준비되지 않았습니다.</p>
+            <p>최신 기준 데이터를 준비하고 있습니다.</p>
+            <p>잠시 후 다시 확인해 주세요.</p>
           </CardContent>
         </Card>
       )}

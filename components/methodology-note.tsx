@@ -21,7 +21,7 @@ export function MethodologyNote({ generatedAt, source }: MethodologyNoteProps) {
           <p className="text-[11px] uppercase tracking-[0.08em] text-[var(--muted)]">방법론</p>
           <CardTitle>계산 기준과 제약</CardTitle>
           <CardDescription>
-            연구 원문의 매크로 해석은 유지하되, 실제 서비스 데이터는 Yahoo Finance ETF 시계열로 구현합니다.
+            연구 원문의 해석을 바탕으로 ETF 시계열에서 확인되는 금 신호를 정리합니다.
           </CardDescription>
         </div>
         <Badge variant="blue">월말 신호</Badge>
@@ -35,7 +35,7 @@ export function MethodologyNote({ generatedAt, source }: MethodologyNoteProps) {
           <li>Yahoo Finance Adjusted Close는 총수익의 근사치이며, 원문 지수와 완전히 동일하지 않을 수 있습니다.</li>
         </ul>
         <div className="space-y-1 text-xs text-[var(--muted)]">
-          <p className="uppercase tracking-[0.08em]">마지막 배치 갱신 · {formatDateTime(generatedAt)}</p>
+          <p className="uppercase tracking-[0.08em]">마지막 갱신 · {formatDateTime(generatedAt)}</p>
           <p>데이터 · {source}</p>
         </div>
         <div className="border-t border-[color:var(--border)] pt-3 text-xs leading-6 text-[var(--muted)]">

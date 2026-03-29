@@ -54,8 +54,7 @@ export async function getDashboardData(
     snapshot,
     series: normalizeCompositeSeries(compositeSeries),
     generatedAt: referenceDate.toISOString(),
-    source:
-      "Yahoo Finance via yahoo-finance2 · GLD/IEF/BIL daily adjusted close aggregated to month-end.",
+    source: "Yahoo Finance · GLD/IEF/BIL 월말 Adjusted Close 기준",
     latestCommonQuoteDate: latestCommonQuoteDate.toISOString().slice(0, 10),
   };
 }
