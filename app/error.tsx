@@ -1,23 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
-
 import { DataState } from "@/components/data-state";
 import { PageShell } from "@/components/page-shell";
 
 export default function Error({
-  error,
   reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
-      console.error(error);
-    }
-  }, [error]);
-
   return (
     <PageShell>
       <DataState
