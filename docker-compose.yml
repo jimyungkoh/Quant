@@ -9,6 +9,7 @@ services:
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
       TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID}
       STATE_FILE: /data/last-signal.json
+      SNAPSHOT_FILE: /data/dashboard-snapshot.json
     volumes:
       - signal-state:/data
 
@@ -26,6 +27,9 @@ services:
       NODE_ENV: production
       HOSTNAME: 0.0.0.0
       PORT: 3000
+      SNAPSHOT_FILE: /data/dashboard-snapshot.json
+    volumes:
+      - signal-state:/data:ro
     healthcheck:
       test:
         [

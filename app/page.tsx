@@ -12,9 +12,9 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
-import { getDashboardData } from "@/lib/server/get-dashboard-data";
+import { getDashboardDataForPage } from "@/lib/server/dashboard-snapshot";
 
-export const revalidate = 86400;
+export const dynamic = "force-dynamic";
 
 export default async function Home({
   searchParams,
@@ -23,7 +23,7 @@ export default async function Home({
 }) {
   const params = await searchParams;
   const selectedRange = coerceTimeRange(params?.range);
-  const dashboard = await getDashboardData();
+  const dashboard = await getDashboardDataForPage();
 
   return (
     <PageShell>
@@ -57,9 +57,23 @@ export default async function Home({
         </Card>
       </section>
 
-      <SignalCard snapshot={dashboard.snapshot} />
-      <TimeSeriesChart points={dashboard.series} selectedRange={selectedRange} />
-      <MethodologyNote generatedAt={dashboard.generatedAt} source={dashboard.source} />
+      {dashboard ? (
+        <>
+          <SignalCard snapshot={dashboard.snapshot} />
+          <TimeSeriesChart points={dashboard.series} selectedRange={selectedRange} />
+          <MethodologyNote generatedAt={dashboard.generatedAt} source={dashboard.source} />
+        </>
+      ) : (
+        <Card>
+          <CardHeader>
+            <CardDescription>스냅샷 대기 중</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm leading-7 text-[var(--muted)]">
+            <p>대시보드는 매 영업일 오전 9시(KST)에 생성된 공식 스냅샷만 표시합니다.</p>
+            <p>아직 첫 배치가 실행되지 않았거나 스냅샷 파일이 준비되지 않았습니다.</p>
+          </CardContent>
+        </Card>
+      )}
     </PageShell>
   );
 }

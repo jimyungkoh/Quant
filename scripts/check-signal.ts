@@ -7,12 +7,13 @@
  *   TELEGRAM_BOT_TOKEN  — @BotFather 에서 발급
  *   TELEGRAM_CHAT_ID    — @userinfobot 에서 확인
  *   STATE_FILE          — 상태 저장 경로 (기본: /data/last-signal.json)
+ *   SNAPSHOT_FILE       — 대시보드 스냅샷 경로 (기본: /data/dashboard-snapshot.json)
  */
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 
-import { getDashboardData } from "@/lib/server/get-dashboard-data";
+import { refreshDashboardSnapshot } from "@/lib/server/dashboard-snapshot";
 import { formatMonthLabel, formatPercent } from "@/lib/formatters";
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
@@ -57,7 +58,34 @@ async function sendTelegram(text: string): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  const { snapshot } = await getDashboardData();
+  const {
+    dashboard,
+    latestComputation,
+    snapshotUpdated,
+    usedPreviousSnapshot,
+  } = await refreshDashboardSnapshot();
+  const { snapshot } = dashboard;
+
+  if (latestComputation.freshness === "stale") {
+    console.warn(
+      `[데이터 지연] latest=${latestComputation.latestCommonQuoteDate} expected=${latestComputation.expectedQuoteDate}`,
+    );
+
+    if (usedPreviousSnapshot) {
+      console.warn(
+        `[이전 스냅샷 유지] generatedAt=${dashboard.generatedAt} / asOfMonth=${dashboard.snapshot.asOfMonth}`,
+      );
+    }
+  } else if (snapshotUpdated) {
+    console.log(
+      `[스냅샷 갱신] generatedAt=${dashboard.generatedAt} / latest=${dashboard.latestCommonQuoteDate}`,
+    );
+  }
+
+  if (latestComputation.freshness === "stale" && !FORCE_NOTIFY) {
+    console.log("[알림 보류] 최신 일봉 반영 전으로 판단되어 Telegram 전송을 건너뜁니다.");
+    return;
+  }
 
   const current: SavedState = {
     month: snapshot.asOfMonth,

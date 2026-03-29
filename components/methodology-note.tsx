@@ -35,7 +35,7 @@ export function MethodologyNote({ generatedAt, source }: MethodologyNoteProps) {
           <li>Yahoo Finance Adjusted Close는 총수익의 근사치이며, 원문 지수와 완전히 동일하지 않을 수 있습니다.</li>
         </ul>
         <div className="space-y-1 text-xs text-[var(--muted)]">
-          <p className="uppercase tracking-[0.08em]">마지막 갱신 · {formatDateTime(generatedAt)}</p>
+          <p className="uppercase tracking-[0.08em]">마지막 배치 갱신 · {formatDateTime(generatedAt)}</p>
           <p>데이터 · {source}</p>
         </div>
         <div className="border-t border-[color:var(--border)] pt-3 text-xs leading-6 text-[var(--muted)]">

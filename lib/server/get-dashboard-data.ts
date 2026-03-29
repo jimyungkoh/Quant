@@ -32,11 +32,30 @@ export async function getDashboardData(
     );
   }
 
+  const latestCommonQuoteDate = [gldQuotes, iefQuotes, bilQuotes]
+    .map((quotes) => quotes.at(-1))
+    .reduce((latest, quote) => {
+      if (!quote) {
+        return latest;
+      }
+
+      if (!latest) {
+        return quote.date;
+      }
+
+      return quote.date.getTime() < latest.getTime() ? quote.date : latest;
+    }, null as Date | null);
+
+  if (!latestCommonQuoteDate) {
+    throw new Error("최신 시세 기준일을 계산할 수 없습니다.");
+  }
+
   return {
     snapshot,
     series: normalizeCompositeSeries(compositeSeries),
     generatedAt: referenceDate.toISOString(),
     source:
       "Yahoo Finance via yahoo-finance2 · GLD/IEF/BIL daily adjusted close aggregated to month-end.",
+    latestCommonQuoteDate: latestCommonQuoteDate.toISOString().slice(0, 10),
   };
 }

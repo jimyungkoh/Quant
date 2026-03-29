@@ -56,4 +56,12 @@ export type DashboardData = {
   series: ChartPoint[];
   generatedAt: string;
   source: string;
+  latestCommonQuoteDate: string;
+};
+
+export type DashboardFreshness = "fresh" | "stale";
+
+export type PersistedDashboardData = DashboardData & {
+  expectedQuoteDate: string;
+  freshness: DashboardFreshness;
 };

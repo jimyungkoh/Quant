@@ -25,8 +25,8 @@ COPY lib ./lib
 COPY scripts ./scripts
 COPY tsconfig.json ./
 
-# 매일 23:00 UTC (= 08:00 KST) 실행, 평일만
-RUN printf '0 23 * * 1-5\tcd /app && node_modules/.bin/tsx scripts/check-signal.ts >> /var/log/signal.log 2>&1\n' \
+# 매 영업일 00:00 UTC (= 09:00 KST) 실행
+RUN printf '0 0 * * 1-5\tcd /app && node_modules/.bin/tsx scripts/check-signal.ts >> /var/log/signal.log 2>&1\n' \
     | crontab -
 
 CMD ["crond", "-f", "-l", "2"]
