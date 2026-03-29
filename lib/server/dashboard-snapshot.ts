@@ -231,5 +231,11 @@ export async function refreshDashboardSnapshot(
 }
 
 export async function getDashboardDataForPage(): Promise<PersistedDashboardData | null> {
-  return readDashboardSnapshot();
+  const snapshot = await readDashboardSnapshot();
+
+  if (snapshot) {
+    return snapshot;
+  }
+
+  return buildPersistedDashboardData(await getDashboardData(), new Date());
 }
